@@ -2,6 +2,37 @@
 
 <?php
 
+/**
+ * A Builder for the PinkCrab Plugin Boilerplate.
+ *
+ * To create a base instance of the current "seed_build" of the Framework Plugin Boilerplate repo
+ * https://github.com/Pink-Crab/Framework_Plugin_Boilerplate
+ *
+ * To run this script, clone the repo as your desired dir name
+ * $ git clone https://github.com/gin0115/PinkCrab_Plugin_Boilerplate_Seed.git achme_someting_plugin
+ *
+ * Once the repo is cloned, cd into the directory and run
+ * $ php build_plugin.php
+ *
+ * You will then be asked a to supply all basic details for the build.
+ * Once they are entered the plugin will be cloned and populated with your data.
+ *
+ * After it has been setup, you can either add dependencies using composer and then run
+ * $ bash build.sh
+ * This will build both the production (with scoped namespaces) and dev (for testing/ci) builds
+ *
+ * If you just want to test the build first, you will be prompted and asked if you want to run
+ * a build of the dependencies. Choose this will have your plugin ready to be activated and tested.
+ *
+ * CAVEATS
+ * This is not a final build and while it works, its very finky.
+ * There is no validation of values entered and composer will not allow invalid email and urls
+ * If you have any problems, just remove all files except this one and run again.
+ *
+ * @author Glynn Quelch <glynn.quelch@gmail.com>
+ * @package gin0115/PinkCrab Plugin Boilerplate Builder
+ */
+
 define( 'REPO_URI', 'https://github.com/Pink-Crab/Framework_Plugin_Boilerplate.git' );
 define( 'BASE_PATH', __DIR__ );
 define( 'EXCLUDED_FILES', array( 'README.md', 'composer.lock', '.gitignore', '.gitkeep', 'phpcs.xml', 'phpunit.xml.dist', 'LICENSE' ) );

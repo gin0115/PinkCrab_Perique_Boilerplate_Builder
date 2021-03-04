@@ -10,6 +10,14 @@ use Cz\Git\GitRepository;
 
 class Repository {
 
+	/**
+	 * Clones the repo and checks out to defined branch.
+	 *
+	 * @param string $sourceRepo
+	 * @param string $desination
+	 * @param string $branch='master'
+	 * @return self
+	 */
 	public function clone(
 		string $sourceRepo,
 		string $desination,
@@ -28,7 +36,7 @@ class Repository {
 	/**
 	 * Removes the .git file
 	 *
-	 * @return void
+	 * @return self
 	 */
 	public function removeGitConfig(): self {
 		exec( sprintf( 'rm -rf %s', BOILERPLATE_REPO_TEMP_PATH . '/.git' ) );

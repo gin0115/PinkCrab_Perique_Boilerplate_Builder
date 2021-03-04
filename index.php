@@ -16,7 +16,7 @@ define( 'EXCLUDED_DIRECTORIES', array( '.github', '.git', 'build-tools' ) );
 
 
 $app = new Application();
-$app->command( 'build [name]', Build::class );
+$app->command( 'build', Build::class );
 
 
 $app->run();

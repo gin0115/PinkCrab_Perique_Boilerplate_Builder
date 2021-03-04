@@ -55,7 +55,7 @@ LOGO;
 
 TITLE;
 
-	public function __invoke( $name, OutputInterface $output, Input $input ) {
+	public function __invoke(  OutputInterface $output, Input $input ) {
 
 		// Show intro screen.
 		$output = $this->styles->registerStyles( $output );
@@ -89,5 +89,8 @@ TITLE;
 			BOILERPLATE_REPO_TEMP_PATH,
 			BOILERPLATE_REPO_BRANCH
 		)->removeGitConfig();
+
+		// Replace all placehoders.
+
 	}
 }

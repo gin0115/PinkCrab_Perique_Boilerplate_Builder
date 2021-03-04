@@ -14,9 +14,25 @@ class Repository {
 		string $sourceRepo,
 		string $desination,
 		string $branch = 'master'
-	) {
+	): self {
+		if ( \file_exists( $desination ) ) {
+			exec( "rm -rf {$desination}" );
+		}
+
 		$repo = GitRepository::cloneRepository( $sourceRepo, $desination );
 		$repo->checkout( $branch );
+
+		return $this;
+	}
+
+	/**
+	 * Removes the .git file
+	 *
+	 * @return void
+	 */
+	public function removeGitConfig(): self {
+		exec( sprintf( 'rm -rf %s', BOILERPLATE_REPO_TEMP_PATH . '/.git' ) );
+		return $this;
 	}
 }
 

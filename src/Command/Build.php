@@ -83,11 +83,11 @@ TITLE;
 			exit;
 		}
 
-		// Clone repo
+		// Clone repo & remove .git
 		$this->gitRepository->clone(
 			BOILERPLATE_REPO,
 			BOILERPLATE_REPO_TEMP_PATH,
 			BOILERPLATE_REPO_BRANCH
-		);
+		)->removeGitConfig();
 	}
 }

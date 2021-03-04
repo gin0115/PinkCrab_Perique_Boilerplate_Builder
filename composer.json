@@ -1,0 +1,51 @@
+{
+    "name": "gin0115/pc-framework-bp-builder",
+    "type": "library",
+    "description": "CLI application for creating built instance of the PinkCrab Plugin Boilerplate, populated and ready to go with prefixed namespaces and base PC testing tools.",
+    "keywords": [],
+    "homepage": "https://pinkcrab.co.uk",
+    "license": "MIT",
+    "authors": [{
+        "name": "Glynn Quelch",
+        "email": "glynn.quelch@pinkcrab.co.uk",
+        "homepage": "http://clappo.co.uk",
+        "role": "Developer"
+    }],
+    "autoload": {
+        "psr-4": {
+            "PinkCrab\\Plugin_Boilerplate_Builder\\": "src"
+        },
+        "files": []
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "PinkCrab\\Plugin_Boilerplate_Builder\\Tests\\": "tests/"
+        }
+    },
+    "repositories": [{
+        "url": "https://github.com/Pink-Crab/PHP_Unit_Helpers.git",
+        "type": "git"
+    }],
+    "require-dev": {
+        "phpunit/phpunit": "^9.0",
+        "symfony/var-dumper": "4.*",
+        "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "object-calisthenics/phpcs-calisthenics-rules": "*",
+        "pinkcrab/phpunit-helpers": "dev-master",
+        "phpstan/phpstan": "^0.12.80",
+        "pinkcrab/function-constructors": "^0.1.1"
+    },
+    "require": {
+        "php": ">=7.4.0",
+        "mnapoli/silly": "^1.7",
+        "mnapoli/silly-php-di": "^1.2",
+        "czproject/git-php": "^3.18"
+    },
+    "scripts": {
+        "test": "phpunit --coverage-clover coverage.xml",
+        "coverage": "phpunit --coverage-html coverage-report",
+        "analyse": "vendor/bin/phpstan analyse src -l8",
+        "sniff": "./vendor/bin/phpcs src/ -v",
+        "all": "composer test && composer analyse && composer sniff"
+    }
+}

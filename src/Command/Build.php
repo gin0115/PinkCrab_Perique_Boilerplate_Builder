@@ -52,7 +52,7 @@ class Build extends Command
                      "===\ P B /==="
                       .==')_=_(`==.    
                      ' .='     `=.
-        
+
 
 LOGO;
 
@@ -65,16 +65,17 @@ LOGO;
 
             	{$this->settings->getAppName()}
             	  v{$this->settings->getAppVersion()}
+				<error>YOU DO NOT HAVE PERMISSION TO DO THIS!!!</>
 
 TITLE;
     }
 
     /**
      * @param OutputInterface $output
-     * @param InputInterface $input
+     * @param Input $input
      * @return void
      */
-    public function __invoke(OutputInterface $output, InputInterface $input)
+    public function __invoke(OutputInterface $output, Input $input)
     {
 
         // Show intro screen.
@@ -84,22 +85,22 @@ TITLE;
         $output->writeln('<lightpink>' . $this->title() . PHP_EOL . '</>');
 
         // Ask questions
-        // $this->pluginBuilder->askQuestions(
-        //     $input,
-        //     $output,
-        //     $this->app->getHelperSet()
-        // );
+        $this->pluginBuilder->askQuestions(
+            $input,
+            $output,
+            $this->app->getHelperSet()
+        );
 
-        // // Abort if any errors.
-        // if ($this->pluginBuilder->hasErrors()) {
-        //     $output->writeln(PHP_EOL);
-        //     foreach ($this->pluginBuilder->getErrors() as $error) {
-        //         $output->writeln("<error>{$error}</>");
-        //     }
-        //     $output->writeln('<error>BUILD TERMINATED</>');
-        //     $output->writeln(PHP_EOL);
-        //     exit;
-        // }
+        // Abort if any errors.
+        if ($this->pluginBuilder->hasErrors()) {
+            $output->writeln(PHP_EOL);
+            foreach ($this->pluginBuilder->getErrors() as $error) {
+                $output->writeln("<error>{$error}</>");
+            }
+            $output->writeln('<error>BUILD TERMINATED</>');
+            $output->writeln(PHP_EOL);
+            exit;
+        }
 
         // Clone repo & remove .git
         $this->gitRepository->clone(

@@ -16,7 +16,6 @@ class Settings
      * @var null|string
      */
     protected ?string $appVersion = null;
-    
     /**
      * @var null|string
      */
@@ -167,7 +166,7 @@ class Settings
      */
     public function getAppName(): string
     {
-        return $this->appName ?? 'UNKOWN';
+        return $this->appName ?? 'UNKNOWN';
     }
 
     /**

@@ -35,7 +35,7 @@ class PluginSetting
     /**
      * @var string
      */
-    protected ?string $response = '';
+    protected string $response = '';
     /**
      * @var string
      */
@@ -70,11 +70,11 @@ class PluginSetting
 
         if (
             is_callable($this->sanitization['validation'])
-            && ! $this->sanitization['validation']( $response )
+            && ! $this->sanitization['validation']($response)
         ) {
             $this->error(
                 sprintf(
-                    'Failed to set %s\'s response as failed validation. %s passed',
+                    'Failed to set %s\'s response as failed validation. \'%s\ was passed.',
                     $this->handle,
                     $response
                 )
@@ -83,10 +83,20 @@ class PluginSetting
         }
 
         $this->response = is_callable($this->sanitization['formatting'])
-            ? $this->sanitization['formatting']( $response )
+            ? $this->sanitization['formatting']($response)
             : $response;
 
         return $this;
+    }
+
+     /**
+     * Get the value of response
+     *
+     * @return string
+     */
+    public function getResponse(): string
+    {
+        return $this->response;
     }
 
     /**

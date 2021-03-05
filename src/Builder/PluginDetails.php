@@ -7,6 +7,7 @@
 namespace PinkCrab\Plugin_Boilerplate_Builder\Builder;
 
 use Exception;
+use Reflection;
 use ReflectionClass;
 use ReflectionProperty;
 use PinkCrab\Plugin_Boilerplate_Builder\Builder\PluginSetting;
@@ -16,175 +17,71 @@ class PluginDetails
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $pluginName;
+    protected $pluginName;
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $pluginUrl;
+    protected $pluginUrl;
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $pluginDescription;
+    protected $pluginDescription;
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $pluginTextdomain;
+    protected $pluginTextdomain;
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $pluginVersion;
+    protected $pluginVersion;
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $authorName;
+    protected $authorName;
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $authorEmail;
+    protected $authorEmail;
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $authorUrl;
+    protected $authorUrl;
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $primaryNamespace;
+    protected $primaryNamespace;
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $WPNamespace;
+    protected $WPNamespace;
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $scoperPrefix;
+    protected $scoperPrefix;
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $composerName;
+    protected $composerName;
     /**
      * @var PluginSetting
      */
-    protected PluginSetting $autoloadDevPrefix;
-
-    public function __construct()
-    {
-
-        /** PLUGIN DETAILS */
-        $this->pluginName = ( new PluginSetting('plugin_name') )
-            ->question('Please enter the plugin name')
-            ->placeholder('##PLUGIN_NAME##')
-            ->formatting('ucwords')
-            ->required();
-
-        $this->pluginUrl = ( new PluginSetting('plugin_url') )
-            ->question('What is your plugins url')
-            ->subLine('Must be entered as full and valid url https://www.url.tld')
-            ->placeholder('##PLUGIN_URL##')
-            ->formatting('strtolower')
-            ->validation(fn($e): bool => (bool) filter_var($e, FILTER_VALIDATE_URL));
-
-        $this->pluginDescription = ( new PluginSetting('plugin_description') )
-            ->question('Your plugin description')
-            ->subLine('This is used for both plugin.php and composer.json')
-            ->placeholder('##PLUGIN_DESCRIPTION##');
-
-        $this->pluginVersion = ( new PluginSetting('plugin_version') )
-            ->question('Your plugin version')
-            ->placeholder('##PLUGIN_VERSION##');
-
-        $this->pluginTextdomain = ( new PluginSetting('plugin_textdomain') )
-            ->question('Your plugin textdomain')
-            ->placeholder('##PLUGIN_TEXTDOMAIN##');
-
-        /** AUTHOR DETAILS */
-        $this->authorName = ( new PluginSetting('author_name') )
-            ->question('The primary author name')
-            ->subLine('This is required, so please enter a valid name. You can remove after setup.')
-            ->placeholder('##AUTHOR_NAME##')
-            ->formatting('ucwords')
-            ->required();
-
-        $this->authorEmail = ( new PluginSetting('author_email') )
-            ->question('The primary author email')
-            ->subLine('This is required, so please enter a valid name. You can remove after setup.')
-            ->placeholder('##AUTHOR_EMAIL##')
-            ->formatting('strtolower')
-            ->validation(fn($e): bool => (bool) filter_var($e, FILTER_VALIDATE_EMAIL))
-            ->required();
-
-        $this->authorUrl = ( new PluginSetting('author_url') )
-            ->question('The primary author url')
-            ->placeholder('##AUTHOR_URL##')
-            ->formatting('strtolower')
-            ->validation(fn($e): bool => (bool) filter_var($e, FILTER_VALIDATE_URL));
-
-        /** COMPOSER DETAILS */
-        $this->primaryNamespace = ( new PluginSetting('primary_namespace') )
-            ->question('The primary namespace for all code in src directory')
-            ->placeholder('##NAMESPACE##')
-            ->subLine('Like Achme\\Plugin_Namespace')
-            ->validation(
-                function ($e): bool {
-                    $regex = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff\\\\]*[a-zA-Z0-9_\x7f-\xff]$/';
-                    return (bool) \preg_match_all($regex, $e);
-                }
-            );
-
-        $this->WPNamespace = ( new PluginSetting('wp_namespace') )
-            ->question('The namespace used for plugin activation and deactivation hooks in wp directory')
-            ->placeholder('##NAMESPACE_WP##')
-            ->subLine('should differ form primary namespace. Like Achme\\WP\\Plugin_Namespace')
-            ->validation(
-                function ($e): bool {
-                    $regex = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff\\\\]*[a-zA-Z0-9_\x7f-\xff]$/';
-                    return (bool) \preg_match_all($regex, $e);
-                }
-            );
-
-        $this->scoperPrefix = ( new PluginSetting('scoper_prefix') )
-            ->question('The unique PHP_Scoper prefix')
-            ->placeholder('##SCOPER_PREFIX##')
-            ->subLine('this must be as unique as possilble. Like Achme_Plugins_Project_XX123')
-            ->validation(
-                function ($e): bool {
-                    $regex = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
-                    return (bool) \preg_match_all($regex, $e);
-                }
-            );
-
-        $this->composerName = ( new PluginSetting('composer_name') )
-            ->question('Please enter a valid composer project name')
-            ->placeholder('##PACKAGE_NAME##')
-            ->subLine('Like achme/plugin-for-things')
-            ->validation(
-                function ($e): bool {
-                    $regex = '/^^[a-zA-Z\d\-\/]+$/';
-                    return (bool) \preg_match_all($regex, $e);
-                }
-            );
-
-        $this->autoloadDevPrefix = ( new PluginSetting('composer_dev_autoloader') )
-            ->question('Please enter the prefix to apply to the dev autoloader')
-            ->placeholder('##DEV_AUTLOADER_PREFIX##')
-            ->subLine('must be valid chars for phpclass name. Like achme_plugin_x_dev')
-            ->validation(
-                function ($e): bool {
-                    $regex = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
-                    return (bool) \preg_match_all($regex, $e);
-                }
-            );
-    }
+    protected $autoloadDevPrefix;
 
     /**
      * Returns all getters as an array.
      *
-     * @return void
+     * @return array<string, PluginSetting>
      */
-    public function toArray()
+    public function toArray(): array
     {
         $array = array();
-        foreach ($this as $key => $value) {
-            $array[ $key ] = $value;
+        $refection = new ReflectionClass($this);
+        $properties = $refection->getProperties(ReflectionProperty::IS_PROTECTED);
+
+        // Itterate through, and compile array of properties.
+        foreach ($properties as $property) {
+            $property->setAccessible(true);
+            $array[$property->getName()] = $property->getValue($this);
         }
         return $array;
     }
@@ -321,5 +218,161 @@ class PluginDetails
     public function getAutoloadDevPrefix(): PluginSetting
     {
         return $this->autoloadDevPrefix;
+    }
+
+    /**
+     * Set the value of pluginName
+     *
+     * @param PluginSetting $pluginName
+     * @return self
+     */
+    public function setPluginName(PluginSetting $pluginName): self
+    {
+        $this->pluginName = $pluginName;
+        return $this;
+    }
+
+    /**
+     * Set the value of pluginUrl
+     *
+     * @param PluginSetting $pluginUrl
+     * @return self
+     */
+    public function setPluginUrl(PluginSetting $pluginUrl): self
+    {
+        $this->pluginUrl = $pluginUrl;
+        return $this;
+    }
+
+    /**
+     * Set the value of pluginDescription
+     *
+     * @param PluginSetting $pluginDescription
+     * @return self
+     */
+    public function setPluginDescription(PluginSetting $pluginDescription): self
+    {
+        $this->pluginDescription = $pluginDescription;
+        return $this;
+    }
+
+    /**
+     * Set the value of pluginTextdomain
+     *
+     * @param PluginSetting $pluginTextdomain
+     * @return self
+     */
+    public function setPluginTextdomain(PluginSetting $pluginTextdomain): self
+    {
+        $this->pluginTextdomain = $pluginTextdomain;
+        return $this;
+    }
+
+    /**
+     * Set the value of pluginVersion
+     *
+     * @param PluginSetting $pluginVersion
+     * @return self
+     */
+    public function setPluginVersion(PluginSetting $pluginVersion): self
+    {
+        $this->pluginVersion = $pluginVersion;
+        return $this;
+    }
+
+    /**
+     * Set the value of authorName
+     *
+     * @param PluginSetting $authorName
+     * @return self
+     */
+    public function setAuthorName(PluginSetting $authorName): self
+    {
+        $this->authorName = $authorName;
+        return $this;
+    }
+
+    /**
+     * Set the value of authorEmail
+     *
+     * @param PluginSetting $authorEmail
+     * @return self
+     */
+    public function setAuthorEmail(PluginSetting $authorEmail): self
+    {
+        $this->authorEmail = $authorEmail;
+        return $this;
+    }
+
+    /**
+     * Set the value of authorUrl
+     *
+     * @param PluginSetting $authorUrl
+     * @return self
+     */
+    public function setAuthorUrl(PluginSetting $authorUrl): self
+    {
+        $this->authorUrl = $authorUrl;
+        return $this;
+    }
+
+    /**
+     * Set the value of primaryNamespace
+     *
+     * @param PluginSetting $primaryNamespace
+     * @return self
+     */
+    public function setPrimaryNamespace(PluginSetting $primaryNamespace): self
+    {
+        $this->primaryNamespace = $primaryNamespace;
+        return $this;
+    }
+
+    /**
+     * Set the value of WPNamespace
+     *
+     * @param PluginSetting $WPNamespace
+     * @return self
+     */
+    public function setWPNamespace(PluginSetting $WPNamespace): self
+    {
+        $this->WPNamespace = $WPNamespace;
+        return $this;
+    }
+
+    /**
+     * Set the value of scoperPrefix
+     *
+     * @param PluginSetting $scoperPrefix
+     * @return self
+     */
+    public function setScoperPrefix(PluginSetting $scoperPrefix): self
+    {
+        $this->scoperPrefix = $scoperPrefix;
+        return $this;
+    }
+
+    /**
+     * Set the value of composerName
+     *
+     * @param PluginSetting $composerName
+     * @return self
+     */
+    public function setComposerName(PluginSetting $composerName): self
+    {
+        $this->composerName = $composerName;
+        return $this;
+    }
+
+    /**
+     * Set the value of autoloadDevPrefix
+     *
+     * @param PluginSetting $autoloadDevPrefix
+     * @return self
+     */
+    public function setAutoloadDevPrefix(PluginSetting $autoloadDevPrefix): self
+    {
+        $this->autoloadDevPrefix = $autoloadDevPrefix;
+        return $this;
     }
 }

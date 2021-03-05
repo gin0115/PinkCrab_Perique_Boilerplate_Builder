@@ -39,7 +39,8 @@
         "php": ">=7.4.0",
         "mnapoli/silly": "^1.7",
         "mnapoli/silly-php-di": "^1.2",
-        "czproject/git-php": "^3.18"
+        "czproject/git-php": "^3.18",
+        "symfony/polyfill-php80": "^1.22"
     },
     "scripts": {
         "test": "phpunit --coverage-clover coverage.xml",

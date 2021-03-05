@@ -1,5 +1,37 @@
 #!/usr/bin/env php
+
 <?php
+
+/**
+ * A Builder for the PinkCrab Plugin Boilerplate.
+ *
+ * To create a base instance of the current "seed_build" of the Framework Plugin Boilerplate repo
+ * https://github.com/Pink-Crab/Framework_Plugin_Boilerplate
+ *
+ * To run this script, clone the repo as your desired dir name
+ * $ git clone https://github.com/gin0115/PinkCrab_Plugin_Boilerplate_Seed.git achme_someting_plugin
+ *
+ * Once the repo is cloned, cd into the directory and run
+ * $ php build_plugin.php
+ *
+ * You will then be asked a to supply all basic details for the build.
+ * Once they are entered the plugin will be cloned and populated with your data.
+ *
+ * After it has been setup, you can either add dependencies using composer and then run
+ * $ bash build.sh
+ * This will build both the production (with scoped namespaces) and dev (for testing/ci) builds
+ *
+ * If you just want to test the build first, you will be prompted and asked if you want to run
+ * a build of the dependencies. Choose this will have your plugin ready to be activated and tested.
+ *
+ * CAVEATS
+ * This is not a final build and while it works, its very finky.
+ * There is no validation of values entered and composer will not allow invalid email and urls
+ * If you have any problems, just remove all files except this one and run again.
+ *
+ * @author Glynn Quelch <glynn.quelch@gmail.com>
+ * @package gin0115/PinkCrab Plugin Boilerplate Builder
+ */
 
 define( 'REPO_URI', 'https://github.com/Pink-Crab/Framework_Plugin_Boilerplate.git' );
 define( 'BASE_PATH', __DIR__ );
@@ -65,7 +97,7 @@ $questions = array(
 	),
 	'primary_namespace'       => array(
 		'question' => 'The primary namespace for all code in src dir',
-		'sub_line' => 'Like Achme\\Plugin_Namespace\\',
+		'sub_line' => 'Like Achme\\Plugin_Namespace',
 		'required' => true,
 		'find'     => '##NAMESPACE##',
 		'replace'  => '',
@@ -120,11 +152,12 @@ function entry( array $rules ): void {
 	move_plugin();
 
 	dividing_line();
-	println( '* - Plugin should now be setup and ready to go.' );
-	println( '* - You will need to ensure all namespaces in composer.json have double \\.' );
+	println( '* - Plugin boilerplate setup and ready to have dependencies added.' );
 	dividing_line();
-	println( '* - Now just run bash build.sh and you will be able to test your plugin.' );
-	dividing_line();
+
+	// Prompt to run build.sh
+	maybe_run_scoper_build();
+
 }
 
 // Ask question(s) and get the response text.
@@ -197,7 +230,7 @@ function clone_repo(): void {
 	$return = 0;
 	exec( 'rm -rf tmp' );
 	exec( sprintf( 'git clone %s tmp', REPO_URI ), $output, $return );
-	exec( 'cd tmp && git checkout feature/create-placeholder-version-for-seed-build  && cd ..', $output );
+	exec( 'cd tmp && git checkout seed_build  && cd ..', $output );
 
 	// Print any output.
 	foreach ( $output as $line ) {
@@ -240,11 +273,21 @@ function search_replace( array $search_replace ): void {
 	foreach ( $files as $file_path ) {
 		$contents = file_get_contents( $file_path );
 		// Replace what is needed.
-		$contents = strtr( $contents, $translations );
+		$contents = strtr(
+			$contents,
+			$file_path === 'tmp/composer.json' ? add_slashes_for_composer( $translations ) : $translations
+		);
 		file_put_contents( $file_path, $contents );
 		dividing_line();
 		println( "* - Processed {$file_path}" );
 	}
+}
+
+// Adds additional slash to composer namespace
+function add_slashes_for_composer( array $translations ): array {
+	$translations['##NAMESPACE##']    = str_replace( '\\', '\\\\', $translations['##NAMESPACE##'] );
+	$translations['##NAMESPACE_WP##'] = str_replace( '\\', '\\\\', $translations['##NAMESPACE_WP##'] );
+	return $translations;
 }
 
 // Returns all the files to be checked.
@@ -289,10 +332,21 @@ function move_plugin(): void {
 
 }
 
+// Clear empty temp dir
 function cleanup_artifacts() {
 	dividing_line();
 	println( '*- Removinig old temp directory' );
 	rmdir( BASE_PATH . '/tmp' );
+}
+
+// Potentially runs scoper build
+function maybe_run_scoper_build() {
+	 // Attempt to build and scope the base install.
+	$run_build = user_prompt( '* - Would you like to run the build.sh script, if you plan to install additonal depenedencies you can skip this.? (Y\yes)' );
+	if ( in_array( strtolower( $run_build ), array( 'yes', 'y' ), true ) ) {
+		exec( 'bash build.sh --dev' );
+	}
+	dividing_line();
 }
 
 // Pollyfill for startsWith

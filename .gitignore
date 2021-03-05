@@ -2,3 +2,5 @@ vendor
 wordpress
 composer.lock
 tmp
+htdocs
+coverage-report

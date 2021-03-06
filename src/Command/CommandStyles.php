@@ -8,12 +8,13 @@ namespace PinkCrab\Plugin_Boilerplate_Builder\Command;
 
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Formatter\OutputFormatterStyleInterface;
 
 class CommandStyles
 {
 
     /**
-     * @var array<string, OutputFormatterStyle>
+     * @var array<string, OutputFormatterStyleInterface>
      */
     protected array $styles = array();
 
@@ -21,6 +22,19 @@ class CommandStyles
     {
         $this->styles['darkpink']  = new OutputFormatterStyle('#ff5ca1', null, array( 'bold', 'blink' ));
         $this->styles['lightpink'] = new OutputFormatterStyle('#ebacc7', null, array());
+    }
+
+    /**
+     * Add an additiona style
+     *
+     * @param string $key
+     * @param OutputFormatterStyleInterface $style
+     * @return self
+     */
+    public function addStyle(string $key, OutputFormatterStyleInterface $style): self
+    {
+        $this->styles[$key] = $style;
+        return $this;
     }
 
     /**

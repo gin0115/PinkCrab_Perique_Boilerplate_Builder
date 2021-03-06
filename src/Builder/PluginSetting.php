@@ -74,7 +74,7 @@ class PluginSetting
         ) {
             $this->error(
                 sprintf(
-                    'Failed to set %s\'s response as failed validation. \'%s\ was passed.',
+                    'Failed to set %s\'s response as failed validation. \'%s\' was passed.',
                     $this->handle,
                     $response
                 )

@@ -71,7 +71,8 @@ class PluginBuilder
     {
         $errors = array_filter(
             $this->pluginDetails->toArray(),
-            fn(PluginSetting $setting): bool => $setting->hasError()
+            fn(?PluginSetting $setting): bool => ! is_null($setting)
+            ? $setting->hasError() : false
         );
         return array_map(fn($e): string => $e->getError(), $errors);
     }

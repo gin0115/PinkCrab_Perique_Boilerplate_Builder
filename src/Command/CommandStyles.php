@@ -6,6 +6,8 @@
 
 namespace PinkCrab\Plugin_Boilerplate_Builder\Command;
 
+use Symfony\Component\Console\Style\SymfonyStyle;
+use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyleInterface;
@@ -49,5 +51,19 @@ class CommandStyles
             $output->getFormatter()->setStyle($key, $style);
         }
         return $output;
+    }
+
+    /**
+     * Returns the sytler used for producing more than writeln.
+     *
+     * @param InputInterface $input
+     * @param OutputInterface $output
+     * @return SymfonyStyle
+     */
+    public function getStyler(
+        InputInterface $input,
+        OutputInterface $output
+    ): SymfonyStyle {
+        return new SymfonyStyle($input, $output);
     }
 }

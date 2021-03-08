@@ -26,8 +26,8 @@ $settings->setBasePath(__DIR__);
 $settings->setTempPath(__DIR__ . '/tmp');
 $settings->setRepoUri('https://github.com/Pink-Crab/Framework_Plugin_Boilerplate.git');
 $settings->setRepoBranch('seed_build');
-$settings->setExcludedDirectories(['composer.json','.github', '.git', 'build-tools']);
-$settings->setExcludedFiles(['README.md', 'composer.lock', '.gitignore', '.gitkeep', 'phpcs.xml', 'phpunit.xml.dist', 'LICENSE' ]);
+$settings->setExcludedDirectories(['.github', '.git', 'build-tools']);
+$settings->setExcludedFiles(['composer.json','README.md', 'composer.lock', '.gitignore', '.gitkeep', 'phpcs.xml', 'phpunit.xml.dist', 'LICENSE' ]);
 
 // Define pluginDetails.
 $pluginDetails = new PluginDetails();
@@ -135,10 +135,10 @@ $pluginDetails->setAutoloadDevPrefix((new PluginSetting('composer_dev_autoloader
         }
 ));
 
-dump($pluginDetails->toArray());
+// dump($pluginDetails->toArray());
 
 $app = new PinkCrabPluginBuilder($settings, $pluginDetails);
-$app->command('build', Build::class);
+$app->command('build [--dev] [--prod]', Build::class);
 
 
 $app->run();

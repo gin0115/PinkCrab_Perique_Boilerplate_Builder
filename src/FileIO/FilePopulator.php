@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Primary service for populating the plugins placeholders.
  */
+
+declare(strict_types=1);
 
 namespace PinkCrab\Plugin_Boilerplate_Builder\FileIO;
 
@@ -40,12 +40,12 @@ class FilePopulator
         array $excludedDirectories = [],
         array $excludedFiles = []
     ): void {
-        
+
         $files = $this->finder->in($directory)
         ->notPath($excludedFiles)
         ->exclude($excludedDirectories)
         ->filter(fn($file) => ! $file->isDir() && $file->isWritable());
-        
+
         foreach ($files as $file) {
             $this->populateFile(
                 $file,
@@ -76,7 +76,7 @@ class FilePopulator
     /**
      * Popultes a single file from a passed array of translations.
      *
-     * @param string $path
+     * @param SplFileInfo $file
      * @param array<string, string> $translations
      * @return bool
      */
@@ -84,6 +84,8 @@ class FilePopulator
     {
         $contents = $file->getContents();
         $translatedContents = \strtr($contents, $translations);
-        return (bool) \file_put_contents($file->getRealPath(), $translatedContents);
+        return $file->getRealPath() !==  false
+            ? (bool) \file_put_contents($file->getRealPath(), $translatedContents)
+            : false ;
     }
 }

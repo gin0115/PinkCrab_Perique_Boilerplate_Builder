@@ -88,12 +88,10 @@ TITLE;
     public function __invoke(
         bool $dev = false,
         bool $prod = false,
-        OutputInterface $output,
+        OutputInterface $output, //phpcs:disable PEAR.Functions.ValidDefaultValue.NotAtEnd -- no control over arg order
         Input $input
     ) {
 
-        // dump($this->gitRepository);
-        
         // Show intro screen.
         $output = $this->styles->registerStyles($output);
         $output->writeln('<darkpink>' . $this->logo . '</>');
@@ -124,7 +122,7 @@ TITLE;
 
         // Clone repo & remove .git
         $this->cloneRepoToTempDirectory();
-              
+
         // Replace all placehoders.
         if (!$this->populateFiles($translations)) {
             $output->writeln("<error>FAILED TO POPULATE MAIN FILES. PLEASE TRY AGAIN</>");
@@ -199,7 +197,7 @@ TITLE;
     /**
      * Populates all the main files.
      *
-     * @param array $translations
+     * @param array<string, string> $translations
      * @return bool
      */
     protected function populateFiles(array $translations): bool
@@ -221,7 +219,7 @@ TITLE;
      * Populates composer.json
      * uses double \\ on namespaces (well \\\\ with escaping)
      *
-     * @param array $translations
+     * @param array<string, string> $translations
      * @return bool
      */
     protected function populateComposer(array $translations): bool

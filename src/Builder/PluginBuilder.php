@@ -1,10 +1,10 @@
 <?php
 
-declare(strict_types=1);
-
 /**
  * Application container.
  */
+
+declare(strict_types=1);
 
 namespace PinkCrab\Plugin_Boilerplate_Builder\Builder;
 

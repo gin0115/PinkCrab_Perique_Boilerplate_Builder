@@ -91,7 +91,7 @@ class PluginDetails
      * translate from placeholders.
      *
      * @param callable|null $filter
-     * @return array
+     * @return array<string, string>
      */
     public function asTranslationArray(?callable $filter = null): array
     {
@@ -115,7 +115,7 @@ class PluginDetails
      *  ....
      * ]
      *
-     * @return array
+     * @return array<string, array<int, string>>
      */
     public function asPlaceholderList(): array
     {

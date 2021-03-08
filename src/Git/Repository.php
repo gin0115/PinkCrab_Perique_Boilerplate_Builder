@@ -18,7 +18,7 @@ use Symfony\Component\Filesystem\Filesystem;
 
 class Repository
 {
-    
+
     protected Filesystem $fileSystem;
 
     public function __construct(Filesystem $fileSystem)
@@ -79,7 +79,7 @@ class Repository
         $gitConfig = str_ends_with($gitConfig, '/.git')
             ? $gitConfig
             : rtrim($gitConfig, '/') . '/.git';
-        
+
         $this->rmDirOrFail($gitConfig);
         return $this;
     }

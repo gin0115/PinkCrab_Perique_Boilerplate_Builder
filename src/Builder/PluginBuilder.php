@@ -4,6 +4,8 @@
  * Application container.
  */
 
+declare(strict_types=1);
+
 namespace PinkCrab\Plugin_Boilerplate_Builder\Builder;
 
 use Symfony\Component\Console\Input\Input;
@@ -75,5 +77,13 @@ class PluginBuilder
             ? $setting->hasError() : false
         );
         return array_map(fn($e): string => $e->getError(), $errors);
+    }
+
+    /**
+     * Get the value of pluginDetails
+     */
+    public function pluginDetails(): PluginDetails
+    {
+        return $this->pluginDetails;
     }
 }

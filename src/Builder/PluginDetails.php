@@ -87,6 +87,45 @@ class PluginDetails
     }
 
     /**
+     * Returns the settings as an array wich can be used to
+     * translate from placeholders.
+     *
+     * @param callable|null $filter
+     * @return array<string, string>
+     */
+    public function asTranslationArray(?callable $filter = null): array
+    {
+        return array_reduce(
+            $this->toArray(),
+            function (array $carry, PluginSetting $setting) use ($filter): array {
+                $carry[$setting->getPlaceholder()] = $filter
+                    ? $filter($setting->getResponse(), $setting)
+                    : $setting->getResponse();
+                return $carry;
+            },
+            []
+        );
+    }
+
+    /**
+     * Returns the placeholder and replacements as a simple list
+     * [
+     *  ['placeholder_a' , 'replacement_a'],
+     *  ['placeholder_b' , 'replacement_b'],
+     *  ....
+     * ]
+     *
+     * @return array<string, array<int, string>>
+     */
+    public function asPlaceholderList(): array
+    {
+        return array_map(
+            fn(PluginSetting $setting): array =>  [$setting->getPlaceholder(), $setting->getResponse()],
+            $this->toArray()
+        );
+    }
+
+    /**
      * Sets the response of a setting.
      *
      * @param string $setting

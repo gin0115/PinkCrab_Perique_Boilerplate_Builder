@@ -11,13 +11,6 @@ use PinkCrab\Plugin_Boilerplate_Builder\Application\PinkCrabPluginBuilder;
 
 require_once __DIR__ . '/vendor/autoload.php';
 
-// define('PLUGIN_BASE_PATH', __DIR__);
-// define('BOILERPLATE_REPO_TEMP_PATH', PLUGIN_BASE_PATH . '/tmp');
-// define('BOILERPLATE_REPO', 'https://github.com/Pink-Crab/Framework_Plugin_Boilerplate.git');
-// define('BOILERPLATE_REPO_BRANCH', 'seed_build');
-// define('EXCLUDED_FILES', array( 'README.md', 'composer.lock', '.gitignore', '.gitkeep', 'phpcs.xml', 'phpunit.xml.dist', 'LICENSE' ));
-// define('EXCLUDED_DIRECTORIES', array( '.github', '.git', 'build-tools' ));
-
 // Define settings.
 $settings = new Settings();
 $settings->setAppName('PinkCrab Plugin Builder');
@@ -26,8 +19,8 @@ $settings->setBasePath(__DIR__);
 $settings->setTempPath(__DIR__ . '/tmp');
 $settings->setRepoUri('https://github.com/Pink-Crab/Framework_Plugin_Boilerplate.git');
 $settings->setRepoBranch('seed_build');
-$settings->setExcludedDirectories(['composer.json','.github', '.git', 'build-tools']);
-$settings->setExcludedFiles(['README.md', 'composer.lock', '.gitignore', '.gitkeep', 'phpcs.xml', 'phpunit.xml.dist', 'LICENSE' ]);
+$settings->setExcludedDirectories(['.github', '.git', 'build-tools']);
+$settings->setExcludedFiles(['composer.json','README.md', 'composer.lock', '.gitignore', '.gitkeep', 'phpcs.xml', 'phpunit.xml.dist', 'LICENSE' ]);
 
 // Define pluginDetails.
 $pluginDetails = new PluginDetails();
@@ -135,10 +128,10 @@ $pluginDetails->setAutoloadDevPrefix((new PluginSetting('composer_dev_autoloader
         }
 ));
 
-dump($pluginDetails->toArray());
+// dump($pluginDetails->toArray());
 
 $app = new PinkCrabPluginBuilder($settings, $pluginDetails);
-$app->command('build', Build::class);
+$app->command('build [--dev] [--prod]', Build::class);
 
 
 $app->run();

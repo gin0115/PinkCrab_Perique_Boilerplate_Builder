@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1615207278">
-  <project timestamp="1615207278">
+<coverage generated="1615207398">
+  <project timestamp="1615207398">
     <file name="/shared/httpd/pc_framework_seed/htdocs/src/Application/PinkCrabPluginBuilder.php">
       <class name="PinkCrab\Plugin_Boilerplate_Builder\Application\PinkCrabPluginBuilder" namespace="global">
         <metrics complexity="4" methods="4" coveredmethods="4" conditionals="0" coveredconditionals="0" statements="13" coveredstatements="13" elements="17" coveredelements="17"/>

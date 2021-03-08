@@ -2,10 +2,6 @@
 
 declare(strict_types=1);
 
-require_once __DIR__ . '/src/main.php';
-
-return;
-
 use Silly\Edition\PhpDi\Application;
 use PinkCrab\Plugin_Boilerplate_Builder\Command\Build;
 use PinkCrab\Plugin_Boilerplate_Builder\Application\Settings;
@@ -13,7 +9,7 @@ use PinkCrab\Plugin_Boilerplate_Builder\Builder\PluginDetails;
 use PinkCrab\Plugin_Boilerplate_Builder\Builder\PluginSetting;
 use PinkCrab\Plugin_Boilerplate_Builder\Application\PinkCrabPluginBuilder;
 
-require_once __DIR__ . '/vendor/autoload.php';
+require_once dirname(__DIR__, 1) . '/vendor/autoload.php';
 
 // Define settings.
 $settings = new Settings();

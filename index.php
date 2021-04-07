@@ -1,3 +1,4 @@
+#!/usr/bin/env php
 <?php
 
 declare(strict_types=1);
@@ -15,13 +16,14 @@ require_once __DIR__ . '/vendor/autoload.php';
 $settings = new Settings();
 $settings->setAppName('PinkCrab Plugin Builder');
 $settings->setAppVersion('0.2.0');
-$settings->setBasePath(__DIR__);
-$settings->setTempPath(__DIR__ . '/tmp');
+$settings->setBasePath(dirname(Phar::running(false), 1));
+$settings->setTempPath(dirname(Phar::running(false), 1) . '/tmp');
 $settings->setRepoUri('https://github.com/Pink-Crab/Framework_Plugin_Boilerplate.git');
 $settings->setRepoBranch('seed_build');
 $settings->setExcludedDirectories(['.github', '.git', 'build-tools']);
 $settings->setExcludedFiles(['composer.json','README.md', 'composer.lock', '.gitignore', '.gitkeep', 'phpcs.xml', 'phpunit.xml.dist', 'LICENSE' ]);
-
+var_dump($settings);
+// die();
 // Define pluginDetails.
 $pluginDetails = new PluginDetails();
 $pluginDetails->setPluginName((new PluginSetting('plugin_name'))
@@ -128,10 +130,10 @@ $pluginDetails->setAutoloadDevPrefix((new PluginSetting('composer_dev_autoloader
         }
 ));
 
-// dump($pluginDetails->toArray());
-
 $app = new PinkCrabPluginBuilder($settings, $pluginDetails);
+
 $app->command('build [--dev] [--prod]', Build::class);
 
+$app->setDefaultCommand('build');
 
 $app->run();

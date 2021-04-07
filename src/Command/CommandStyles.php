@@ -22,7 +22,7 @@ class CommandStyles
 
     public function __construct()
     {
-        $this->styles['darkpink']  = new OutputFormatterStyle('#ff5ca1', null, array( 'bold', 'blink' ));
+        $this->styles['darkpink']  = new OutputFormatterStyle('#ff5ca1', null, array( 'bold' ));
         $this->styles['lightpink'] = new OutputFormatterStyle('#ebacc7', null, array());
     }
 

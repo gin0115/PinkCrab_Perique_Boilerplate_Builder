@@ -51,7 +51,7 @@
         "analyse": "vendor/bin/phpstan analyse src -l8",
         "sniff": "vendor/bin/phpcs src/ -v",
         "all": "composer test && composer analyse && composer sniff",
-        "build-phar": "./box.phar build"
+        "build-phar": "composer install --no-dev --prefer-source && ./box.phar build && mv bin/pinkcrab.phar bin/pinkcrab && composer install"
     },
     "bin": ["vendor/bin/phar-composer"]
 }

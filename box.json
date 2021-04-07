@@ -4,14 +4,14 @@
         "src"
     ],
     "files": [
-        "LICENSE"
+        "LICENSE", "README.md"
     ],
     "finder": [{
         "name": "*.php",
-        "exclude": ["Tests"],
+        "exclude": ["tests", "coverage-report"],
         "in": "vendor"
     }],
     "main": "index.php",
-    "output": "./bin/pinkcrab.phar",
+    "output": "bin/pinkcrab.phar",
     "stub": true
 }

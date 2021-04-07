@@ -43,11 +43,10 @@ class Settings
 
     /**
      * Get the value of basePath
-     * @todo check these when built as phar!
      */
     public function getBasePath(): string
     {
-        return $this->basePath ?? \dirname(__DIR__, 2);
+        return $this->basePath ?? \dirname(__DIR__, 3);
     }
 
     /**
@@ -63,11 +62,10 @@ class Settings
 
     /**
      * Get the value of tempPath
-     * @todo check these when built as phar! (FALLBACK!!!!!)
      */
     public function getTempPath(): string
     {
-        return $this->tempPath ?? \dirname(__DIR__, 2) . '/tmp';
+        return $this->tempPath ?? \dirname(__DIR__, 3) . '/tmp';
     }
 
     /**

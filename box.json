@@ -12,6 +12,6 @@
         "in": "vendor"
     }],
     "main": "index.php",
-    "output": "pinkcrab.phar",
+    "output": "./bin/pinkcrab.phar",
     "stub": true
 }

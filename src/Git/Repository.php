@@ -61,6 +61,7 @@ class Repository
             $this->fileSystem->remove($path);
 
             // Ensure removed, throw if not.
+            // @phpstan-ignore-next-line
             if ($this->fileSystem->exists($path)) {
                 throw new Exception("Failed to remove {$path} directory.");
             }

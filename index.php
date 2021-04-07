@@ -1,10 +1,7 @@
+#!/usr/bin/env php
 <?php
 
 declare(strict_types=1);
-
-require_once __DIR__ . '/src/main.php';
-
-return;
 
 use Silly\Edition\PhpDi\Application;
 use PinkCrab\Plugin_Boilerplate_Builder\Command\Build;
@@ -131,8 +128,6 @@ $pluginDetails->setAutoloadDevPrefix((new PluginSetting('composer_dev_autoloader
             return (bool) \preg_match_all($regex, $e);
         }
 ));
-
-// dump($pluginDetails->toArray());
 
 $app = new PinkCrabPluginBuilder($settings, $pluginDetails);
 $app->command('build [--dev] [--prod]', Build::class);

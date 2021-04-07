@@ -25,7 +25,7 @@ try {
     $phar->startBuffering();
 
     // Create the default stub from main.php entrypoint
-    $defaultStub = $phar->createDefaultStub('main.php');
+    $defaultStub = $phar->createDefaultStub('index.php');
 
     // Add the rest of the apps files
     $phar->buildFromDirectory(__DIR__ . '/src');

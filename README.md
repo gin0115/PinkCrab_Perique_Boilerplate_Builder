@@ -1,5 +1,9 @@
 # PinkCrab Plugin Framework Builder
 
+**You can also build this from the current binary**
+``` $ wget https://bin.pinkcrab.co.uk/pinkcrab  && php pinkcrab```
+
+
 # Version 0.4.0
 > Currently compatible with V0.4.* of the Plugin Boilerplate (which uses 0.4.* version of the core codebase)
 
@@ -18,6 +22,7 @@ $ ./build.sh --dev
 # RUN ME FOR composer install --no-dev
 $ ./build.sh
 ```
+
 
 ## PHP Scoper
 

@@ -1,0 +1,17 @@
+{
+    "chmod": "0755",
+    "directories": [
+        "src"
+    ],
+    "files": [
+        "LICENSE", "README.md"
+    ],
+    "finder": [{
+        "name": "*.php",
+        "exclude": ["tests", "coverage-report"],
+        "in": "vendor"
+    }],
+    "main": "index.php",
+    "output": "bin/pinkcrab.phar",
+    "stub": true
+}

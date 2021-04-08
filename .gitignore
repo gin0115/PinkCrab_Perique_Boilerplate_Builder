@@ -1,4 +1,5 @@
-vendor
-wordpress
-composer.lock
-tmp
+/vendor
+/tmp
+/coverage-report
+.phpunit.result.cache
+coverage.xml

@@ -39,13 +39,19 @@
         "php": ">=7.4.0",
         "mnapoli/silly": "^1.7",
         "mnapoli/silly-php-di": "^1.2",
-        "czproject/git-php": "^3.18"
+        "czproject/git-php": "^3.18",
+        "symfony/polyfill-php80": "^1.22",
+        "symfony/finder": "^5.2",
+        "phpunit/php-code-coverage": "^9.2",
+        "symfony/filesystem": "^5.2"
     },
     "scripts": {
         "test": "phpunit --coverage-clover coverage.xml",
         "coverage": "phpunit --coverage-html coverage-report",
         "analyse": "vendor/bin/phpstan analyse src -l8",
-        "sniff": "./vendor/bin/phpcs src/ -v",
-        "all": "composer test && composer analyse && composer sniff"
-    }
+        "sniff": "vendor/bin/phpcs src/ -v",
+        "all": "composer test && composer analyse && composer sniff",
+        "build-phar": "composer install --no-dev --prefer-source && ./box.phar build && mv bin/pinkcrab.phar bin/pinkcrab && composer install"
+    },
+    "bin": ["vendor/bin/phar-composer"]
 }

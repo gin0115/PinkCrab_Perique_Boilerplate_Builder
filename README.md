@@ -1,7 +1,7 @@
 # PinkCrab Plugin Framework Builder
 
-# Version 0.3.0
-> Currently compatible with V0.3.* of the Plugin Boilerplate (which uses 0.3.* version of the core codebase)
+# Version 0.4.0
+> Currently compatible with V0.4.* of the Plugin Boilerplate (which uses 0.4.* version of the core codebase)
 
 This is a simple executeable which can be used to create an fully functional version of the PinkCrab Plugin Framework
 

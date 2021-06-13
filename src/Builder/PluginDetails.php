@@ -53,10 +53,6 @@ class PluginDetails
     /**
      * @var PluginSetting
      */
-    protected $WPNamespace;
-    /**
-     * @var PluginSetting
-     */
     protected $scoperPrefix;
     /**
      * @var PluginSetting
@@ -224,15 +220,6 @@ class PluginDetails
     }
 
     /**
-     * Get the value of WPNamespace
-     * @return PluginSetting
-     */
-    public function getWPNamespace(): PluginSetting
-    {
-        return $this->WPNamespace;
-    }
-
-    /**
      * Get the value of scoperPrefix
      * @return PluginSetting
      */
@@ -364,18 +351,6 @@ class PluginDetails
     public function setPrimaryNamespace(PluginSetting $primaryNamespace): self
     {
         $this->primaryNamespace = $primaryNamespace;
-        return $this;
-    }
-
-    /**
-     * Set the value of WPNamespace
-     *
-     * @param PluginSetting $WPNamespace
-     * @return self
-     */
-    public function setWPNamespace(PluginSetting $WPNamespace): self
-    {
-        $this->WPNamespace = $WPNamespace;
         return $this;
     }
 

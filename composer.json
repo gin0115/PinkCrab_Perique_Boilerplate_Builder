@@ -22,16 +22,12 @@
             "PinkCrab\\Plugin_Boilerplate_Builder\\Tests\\": "tests/"
         }
     },
-    "repositories": [{
-        "url": "https://github.com/Pink-Crab/PHP_Unit_Helpers.git",
-        "type": "git"
-    }],
     "require-dev": {
         "phpunit/phpunit": "^9.0",
         "symfony/var-dumper": "4.*",
         "dealerdirect/phpcodesniffer-composer-installer": "*",
         "object-calisthenics/phpcs-calisthenics-rules": "*",
-        "pinkcrab/phpunit-helpers": "dev-master",
+        "gin0115/wpunit-helpers": "^1.0",
         "phpstan/phpstan": "^0.12.80",
         "pinkcrab/function-constructors": "^0.1.1"
     },

@@ -149,6 +149,12 @@ TITLE;
         $output->writeln('<lightpink>Cleaning up temp directory');
         $this->fileSystem->remove($this->settings->getTempPath());
 
+        // Check if created from pinkcrab bin
+        if (file_exists($this->settings->getBasePath() . \DIRECTORY_SEPARATOR . 'pinkcrab')) {
+            $this->fileSystem->remove($this->settings->getBasePath() . \DIRECTORY_SEPARATOR . 'pinkcrab');
+            $output->writeln('<lightpink>Removed local builder binary');
+        }
+
         $output->writeln('<darkpink>Plugin Built');
     }
 

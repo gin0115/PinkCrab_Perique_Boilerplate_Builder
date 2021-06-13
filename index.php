@@ -90,6 +90,19 @@ $pluginDetails->setAuthorUrl(
 );
 
 /** COMPOSER DETAILS */
+$pluginDetails->setComposerName(
+    ( new PluginSetting('composer_name') )
+        ->question('Please enter a valid composer project name')
+        ->placeholder('##PACKAGE_NAME##')
+        ->subLine('Like achme/plugin-for-things')
+        ->validation(
+            function ($e): bool {
+                $regex = '/^^[a-zA-Z\d\-\/]+$/';
+                return (bool) \preg_match_all($regex, $e);
+            }
+        )
+);
+
 $pluginDetails->setPrimaryNamespace(
     ( new PluginSetting('primary_namespace') )
         ->question('The primary namespace for all code in src directory')
@@ -107,23 +120,10 @@ $pluginDetails->setScoperPrefix(
     ( new PluginSetting('scoper_prefix') )
         ->question('The unique PHP_Scoper prefix')
         ->placeholder('##SCOPER_PREFIX##')
-        ->subLine('this must be as unique as possilble. Like Achme_Plugins_Project_XX123')
+        ->subLine('this must be as unique as possible. Like Achme_Plugins_Project_XX123')
         ->validation(
             function ($e): bool {
                 $regex = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';
-                return (bool) \preg_match_all($regex, $e);
-            }
-        )
-);
-
-$pluginDetails->setComposerName(
-    ( new PluginSetting('composer_name') )
-        ->question('Please enter a valid composer project name')
-        ->placeholder('##PACKAGE_NAME##')
-        ->subLine('Like achme/plugin-for-things')
-        ->validation(
-            function ($e): bool {
-                $regex = '/^^[a-zA-Z\d\-\/]+$/';
                 return (bool) \preg_match_all($regex, $e);
             }
         )
@@ -133,7 +133,7 @@ $pluginDetails->setAutoloadDevPrefix(
     ( new PluginSetting('composer_dev_autoloader') )
         ->question('Please enter the prefix to apply to the dev autoloader')
         ->placeholder('##DEV_AUTLOADER_PREFIX##')
-        ->subLine('must be valid chars for phpclass name. Like achme_plugin_x_dev')
+        ->subLine('must be valid chars for a php class name. Like achme_plugin_x_dev, this is used to identify the build autoload')
         ->validation(
             function ($e): bool {
                 $regex = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff]*$/';

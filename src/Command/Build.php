@@ -23,6 +23,7 @@ use PinkCrab\Plugin_Boilerplate_Builder\Git\Repository as GitRepository;
 class Build extends Command
 {
 
+
     protected PluginBuilder $pluginBuilder;
     protected Application $app;
     protected CommandStyles $styles;
@@ -45,7 +46,7 @@ class Build extends Command
         $this->settings      = $settings;
         $this->gitRepository = $gitRepository;
         $this->pluginBuilder = $pluginBuilder;
-        $this->fileSystem = $fileSystem;
+        $this->fileSystem    = $fileSystem;
         $this->filePopulator = $filePopulator;
     }
 
@@ -97,7 +98,6 @@ TITLE;
         $output->writeln('<darkpink>' . $this->logo . '</>');
         $output->writeln('<lightpink>' . $this->title() . PHP_EOL . '</>');
 
-
         // Ask questions
         $this->pluginBuilder->askQuestions($input, $output, $this->app->getHelperSet());
 
@@ -110,7 +110,7 @@ TITLE;
 
         // Show details on screen.
         $outputHelper->table(
-            ['Placeholder', 'Inputted Value'],
+            array( 'Placeholder', 'Inputted Value' ),
             $this->pluginBuilder->pluginDetails()->asPlaceholderList()
         );
 
@@ -124,14 +124,14 @@ TITLE;
         $this->cloneRepoToTempDirectory();
 
         // Replace all placehoders.
-        if (!$this->populateFiles($translations)) {
-            $output->writeln("<error>FAILED TO POPULATE MAIN FILES. PLEASE TRY AGAIN</>");
+        if (! $this->populateFiles($translations)) {
+            $output->writeln('<error>FAILED TO POPULATE MAIN FILES. PLEASE TRY AGAIN</>');
             exit;
         }
 
         // Replace placeholders in composer.json
-        if (!$this->populateComposer($translations)) {
-            $output->writeln("<error>FAILED TO POPULATE COMPOSER.JSON, ABORTED OPERATION. PLEASE TRY AGAIN</>");
+        if (! $this->populateComposer($translations)) {
+            $output->writeln('<error>FAILED TO POPULATE COMPOSER.JSON, ABORTED OPERATION. PLEASE TRY AGAIN</>');
             exit;
         }
 
@@ -141,24 +141,16 @@ TITLE;
             $this->settings->getTempPath(),
             $this->settings->getBasePath(),
             null,
-            ['override' => true]
+            array( 'override' => true )
         );
 
-        // If requested dev build.
-        if ($dev === true) {
-            dump('RUN DEV');
-        } elseif ($prod === true) {
-            dump('RUN PRODUCTION');
-        }
+        // Remove the empty temp directory.
+        $output->writeln('<lightpink>Cleaning up temp directory');
+        $this->fileSystem->remove($this->settings->getTempPath());
+
+        $output->writeln('<darkpink>Plugin Built');
     }
 
-    public function validateCommand(
-        bool $devBuild,
-        bool $productionBuild,
-        OutputInterface $output
-    ): void {
-        # code...
-    }
 
     /**
      * Verfifies that none of the plugin details has errors.
@@ -187,11 +179,11 @@ TITLE;
      */
     protected function cloneRepoToTempDirectory(): void
     {
-         $this->gitRepository->clone(
-             $this->settings->getRepoUri(),
-             $this->settings->getTempPath(),
-             $this->settings->getRepoBranch()
-         )->removeGitConfig($this->settings->getTempPath() . '/.git');
+        $this->gitRepository->clone(
+            $this->settings->getRepoUri(),
+            $this->settings->getTempPath(),
+            $this->settings->getRepoBranch()
+        )->removeGitConfig($this->settings->getTempPath() . '/.git');
     }
 
     /**
@@ -225,7 +217,6 @@ TITLE;
     protected function populateComposer(array $translations): bool
     {
         $translations['##NAMESPACE##']    = Strings::doubleSlashes($translations['##NAMESPACE##']);
-        $translations['##NAMESPACE_WP##'] = Strings::doubleSlashes($translations['##NAMESPACE_WP##']);
         return $this->filePopulator->findAndPopulateFile(
             'composer.json',
             $translations,

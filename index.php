@@ -20,7 +20,7 @@ $settings->setBasePath( dirname( Phar::running( false ), 1 ) );
 $settings->setTempPath( dirname( Phar::running( false ), 1 ) . '/tmp' );
 $settings->setRepoUri( 'https://github.com/Pink-Crab/Framework_Plugin_Boilerplate.git' );
 $settings->setRepoBranch( 'seed_build' );
-$settings->setExcludedDirectories( array( '.github', '.git', 'build-tools' ) );
+$settings->setExcludedDirectories( array( '.github', '.git' ) );
 $settings->setExcludedFiles( array( 'composer.json', 'README.md', 'composer.lock', '.gitignore', '.gitkeep', 'phpcs.xml', 'phpunit.xml.dist', 'LICENSE' ) );
 
 // Define pluginDetails.
@@ -103,19 +103,6 @@ $pluginDetails->setPrimaryNamespace(
 	)
 );
 
-$pluginDetails->setWPNamespace(
-	( new PluginSetting( 'wp_namespace' ) )
-	->question( 'The namespace used for plugin activation and deactivation hooks in wp directory' )
-	->placeholder( '##NAMESPACE_WP##' )
-	->subLine( 'should differ form primary namespace. Like Achme\\WP\\Plugin_Namespace' )
-	->validation(
-		function ( $e ): bool {
-			$regex = '/^[a-zA-Z_\x7f-\xff][a-zA-Z0-9_\x7f-\xff\\\\]*[a-zA-Z0-9_\x7f-\xff]$/';
-			return (bool) \preg_match_all( $regex, $e );
-		}
-	)
-);
-
 $pluginDetails->setScoperPrefix(
 	( new PluginSetting( 'scoper_prefix' ) )
 	->question( 'The unique PHP_Scoper prefix' )
@@ -155,10 +142,9 @@ $pluginDetails->setAutoloadDevPrefix(
 	)
 );
 
+// Build the app.
 $app = new PinkCrabPluginBuilder( $settings, $pluginDetails );
 
 $app->command( 'build [--dev] [--prod]', Build::class );
-
 $app->setDefaultCommand( 'build' );
-
 $app->run();

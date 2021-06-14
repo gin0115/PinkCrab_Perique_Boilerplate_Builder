@@ -28,11 +28,11 @@ $ ./build.sh
 
 The version of the boilerplate installed, comes set with (slightly clunky) config for using PHP Scoper. This allows you to create your plugin with a unique namespace, not only for your own code, but all the dependencies you are using. This removes the potential for conflicts with other plugins which could be using an older or newer version of a library.
 
-When the custom build.sh script is run, ```composer install``` will be run, this will create our normal vendor directory and autloader. Then a patcher of all functions, classes and constants are taken for WP Core, WooCommerce and ACF (all latest versions). Then ```composer install --no-dev``` is run to give us a production build. PHP Scoper is then run, using the WP, WooCommerce and ACF patcher and a custom  vendor directory and autoloader is created (in build/vendor). Then we run ```composer install``` again, to give us back our initial vendor and autoloader.
+When the custom build.sh script is run, ```composer install``` will be run, this will create our normal vendor directory and autoloader. Then a patcher of all functions, classes and constants are taken for WP Core, WooCommerce and ACF (all latest versions). Then ```composer install --no-dev``` is run to give us a production build. PHP Scoper is then run, using the WP, WooCommerce and ACF patcher and a custom  vendor directory and autoloader is created (in build/vendor). Then we run ```composer install``` again, to give us back our initial vendor and autoloader.
 
 ### WHY 3 COMPOSER INSTALLS!!!!
 
-Well, we could have skipped the last 2 composer installs and just created a custom vendor/autloader using the dev dependencies, but thats totally pointless as most dependencies are for testing. So after we run the first dev build, we use static analysis stubs for our WP/WC/ACF **patchers** (all functions, classes and constants TO NOT apply a custom namespace to). So once we generate them, we run composer install for a dev build, scope that and then run again so we can use phpunit, php-stan and phpcs.
+Well, we could have skipped the last 2 composer installs and just created a custom vendor/autoloader using the dev dependencies, but thats totally pointless as most dependencies are for testing. So after we run the first dev build, we use static analysis stubs for our WP/WC/ACF **patchers** (all functions, classes and constants TO NOT apply a custom namespace to). So once we generate them, we run composer install for a dev build, scope that and then run again so we can use phpunit, php-stan and phpcs.
 
 ### So Which Copy
 
